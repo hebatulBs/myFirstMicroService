@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  catelogdb:
+    container_name: catelogdb
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - app_network
+    volumes:
+      - mongo_data:/data/db
+
+  # Mongo Express Service
+  mongo-express:
+    image: mongo-express:latest # latest image
+    container_name: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_SERVER: catelogdb
+    ports:
+      - "8081:8081"
+    networks:
+      - app_network
+    depends_on:
+      - catelogdb
+
+  catelog.api:
+    container_name: catelog.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=5000:80
+      - "DatabaseSettings:ConnectionString=mongodb://catelogdb:27017"
+    ports:
+      - "5000:80"
+    networks:
+      - app_network
+    depends_on:
+      - catelogdb
+    
+networks:
+  app_network:
+     driver: bridge
+
+    
