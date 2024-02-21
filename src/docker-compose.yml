@@ -9,7 +9,7 @@ services:
     image: ${DOCKER_REGISTRY-}catelogapi
     build:
       context: .
-      dockerfile: Catelog.Api/Dockerfile
+      dockerfile: Services/Catelog/Catelog.Api/Dockerfile
   
   # Mongo Express Service
   mongo-express:

@@ -9,10 +9,10 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Catelog.Api/Catelog.Api.csproj", "Catelog.Api/"]
-RUN dotnet restore "./Catelog.Api/Catelog.Api.csproj"
+COPY ["Services/Catelog/Catelog.Api/Catelog.Api.csproj", "Services/Catelog/Catelog.Api/"]
+RUN dotnet restore "./Services/Catelog/Catelog.Api/Catelog.Api.csproj"
 COPY . .
-WORKDIR "/src/Catelog.Api"
+WORKDIR "/src/Services/Catelog/Catelog.Api"
 RUN dotnet build "./Catelog.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
